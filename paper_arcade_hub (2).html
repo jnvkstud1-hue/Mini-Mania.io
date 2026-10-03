@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Arcade Hub - Ultimate Edition (26 Games)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Hand-drawn / Notebook aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f0ea;
+            background-image: 
+                linear-gradient(90deg, rgba(200, 190, 175, 0.18) 1px, transparent 1px),
+                linear-gradient(rgba(200, 190, 175, 0.18) 1px, transparent 1px);
+            background-size: 24px 24px;
+            font-family: 'Patrick Hand', cursive, sans-serif;
+            color: #2c2c2c;
+            overflow-x: hidden;
+        }
+
+        .title-font {
+            font-family: 'Caveat', cursive, sans-serif;
+        }
+
+        .arcade-font {
+            font-family: 'VT323', monospace;
+        }
+
+        /* Hand-drawn sketchy border effect */
+        .sketch-box {
+            border: 3px solid #2c2c2c;
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            box-shadow: 4px 4px 0px rgba(44, 44, 44, 0.85);
+            transition: all 0.2s ease;
+        }
+        
+        .sketch-box:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px rgba(44, 44, 44, 0.95);
+        }
+
+        .sketch-btn {
+            border: 2px solid #2c2c2c;
+            border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+            box-shadow: 3px 3px 0px #2c2c2c;
+            transition: all 0.1s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .sketch-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #2c2c2c;
+        }
+
+        /* Paper tape accent */
+        .paper-tape {
+            position: absolute;
+            width: 100px;
+            height: 24px;
+            background-color: rgba(245, 230, 195, 0.7);
+            border-left: 2px dashed rgba(180, 160, 130, 0.5);
+            border-right: 2px dashed rgba(180, 160, 130, 0.5);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ede8df;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b5aca0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-yellow-200">
+
+    <header class="w-full bg-[#faf6ee] border-b-4 border-dashed border-stone-400 py-4 px-6 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center text-white text-2xl font-bold sketch-box transform -rotate-6">
+                    🐮
+                </div>
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold title-font tracking-wide text-stone-800">Paper Arcade Hub</h1>
+                    <p class="text-xs md:text-sm text-stone-600 font-semibold">Ultimate Edition • 26 Fully Playable Sketch Games</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <div class="sketch-box bg-amber-100 px-4 py-1 text-sm font-bold text-stone-800 flex items-center gap-2">
+                    <span>🏆 Total High Score:</span>
+                    <span id="global-score" class="arcade-font text-xl text-amber-700">0</span>
+                </div>
+                <button onclick="openGameModal('flappy-cow')" class="sketch-btn bg-pink-200 hover:bg-pink-300 px-4 py-2 font-bold text-stone-900 flex items-center gap-2 transform rotate-1">
+                    <span>🚀 Play Flappy Cow</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full p-4 md:p-8 flex-grow">
+        
+        <!-- Featured Banner for Flappy Cow -->
+        <section class="mb-10 sketch-box bg-gradient-to-r from-sky-100 via-pink-50 to-amber-50 p-6 md:p-8 rounded-2xl relative overflow-hidden">
+            <div class="paper-tape -top-3 left-10"></div>
+            <div class="absolute -right-10 -bottom-10 opacity-20 text-9xl pointer-events-none select-none">
+                🐄
+            </div>
+            <div class="max-w-2xl relative z-10">
+                <span class="bg-red-400 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Featured Game</span>
+                <h2 class="text-4xl md:text-6xl font-bold title-font mt-2 text-stone-900">Flappy Cow 🥛</h2>
+                <p class="text-lg md:text-xl text-stone-700 mt-2">
+                    Help our dairy superstar with big comical eyes, floppy ears, and her signature pink tongue sticking out flap through sketchy paper pipes! Tap or press Spacebar to stay airborne.
+                </p>
+                <div class="mt-6 flex flex-wrap gap-4 items-center">
+                    <button onclick="openGameModal('flappy-cow')" class="sketch-btn bg-stone-900 text-amber-100 px-6 py-3 text-lg font-bold flex items-center gap-2 hover:bg-stone-800">
+                        <span>▶ Start Flappy Cow</span>
+                    </button>
+                    <div class="text-sm font-bold text-stone-600 bg-white/80 px-4 py-2 sketch-box">
+                        High Score: <span id="featured-high-score" class="arcade-font text-xl text-amber-800">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search & Category Filter Bar -->
+        <div class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="w-full md:w-96">
+                <input type="text" id="game-search" placeholder="Search 26 hand-drawn games..." oninput="filterGames()" 
+                       class="w-full sketch-box bg-white px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-amber-400">
+            </div>
+            <div class="flex gap-2 flex-wrap" id="category-filters">
+                <button onclick="filterCategory('all')" class="sketch-btn bg-amber-200 px-4 py-2 text-sm font-bold category-btn active" data-cat="all">All Games (26)</button>
+                <button onclick="filterCategory('arcade')" class="sketch-btn bg-stone-200 px-4 py-2 text-sm font-bold category-btn" data-cat="arcade">Arcade & Retro</button>
+                <button onclick="filterCategory('puzzle')" class="sketch-btn bg-stone-200 px-4 py-2 text-sm font-bold category-btn" data-cat="puzzle">Puzzles & Strategy</button>
+                <button onclick="filterCategory('casual')" class="sketch-btn bg-stone-200 px-4 py-2 text-sm font-bold category-btn" data-cat="casual">Casual & Relax</button>
+            </div>
+        </div>
+
+        <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Games cards injected dynamically -->
+        </div>
+    </main>
+
+    <div id="game-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 md:p-4">
+        <div class="sketch-box bg-[#faf6ee] w-full max-w-4xl max-h-[98vh] flex flex-col rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            
+            <!-- Modal Header -->
+            <div class="bg-stone-200 px-6 py-3 border-b-2 border-stone-400 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <span id="modal-icon" class="text-3xl">🐮</span>
+                    <div>
+                        <h3 id="modal-title" class="text-2xl font-bold title-font text-stone-900">Flappy Cow</h3>
+                        <p id="modal-category" class="text-xs text-stone-600 font-semibold">Arcade Action</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="sketch-box bg-white px-3 py-1 text-sm font-bold">
+                        Score: <span id="modal-score" class="arcade-font text-xl text-amber-700">0</span>
+                    </div>
+                    <button onclick="closeGameModal()" class="sketch-btn bg-red-300 hover:bg-red-400 w-10 h-10 flex items-center justify-center text-xl font-bold">✕</button>
+                </div>
+            </div>
+
+            <!-- Modal Body (Canvas & Dynamic Controls) -->
+            <div class="flex-grow p-3 md:p-5 bg-[#f4f0ea] flex flex-col items-center justify-center relative overflow-y-auto">
+                <div id="game-container" class="w-full flex flex-col items-center justify-center">
+                    <!-- Canvas inserted here -->
+                </div>
+                <div id="controls-container" class="w-full mt-3 flex justify-center items-center gap-2 flex-wrap">
+                    <!-- Touch control pads inserted here -->
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-stone-100 px-6 py-2.5 border-t-2 border-stone-300 flex flex-col md:flex-row justify-between items-center text-sm font-semibold text-stone-600 gap-2">
+                <div id="modal-instructions">Press SPACEBAR or CLICK to play!</div>
+                <div class="flex gap-2">
+                    <button onclick="restartCurrentGame()" class="sketch-btn bg-amber-200 px-4 py-1 text-sm font-bold">🔄 Restart</button>
+                    <button onclick="closeGameModal()" class="sketch-btn bg-stone-300 px-4 py-1 text-sm font-bold">🚪 Exit</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="w-full bg-[#faf6ee] border-t-4 border-dashed border-stone-400 py-6 px-6 text-center text-stone-600">
+        <p class="title-font text-2xl">Paper Arcade Hub • Ultimate 26-Game Edition ✏️ & 🥛</p>
+        <p class="text-xs mt-1">All 26 games are fully interactive, featuring live previews and mobile-friendly control pads!</p>
+    </footer>
+
+    <script>
+        // Web Audio API Sound Synthesizer
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+            if (type === 'flap') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.exponentialRampToValueAtTime(350, now + 0.15);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } else if (type === 'score') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.setValueAtTime(600, now + 0.08);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            } else if (type === 'hit') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(120, now);
+                osc.frequency.linearRampToValueAtTime(40, now + 0.3);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'click') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(300, now);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } else if (type === 'laser') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(800, now);
+                osc.frequency.exponentialRampToValueAtTime(100, now + 0.1);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            }
+        }
+
+        const gamesList = [
+            { id: 'flappy-cow', title: 'Flappy Cow', category: 'arcade', icon: '🐮', desc: 'Flap through sketchy paper pipes with your funny cow!' },
+            { id: 'pac-man', title: 'Pac-Doodle', category: 'arcade', icon: '🟡', desc: 'Chomping pellets and dodging paper ghosts in graph maze.' },
+            { id: 'space-invaders', title: 'Sketch Invaders', category: 'arcade', icon: '👾', desc: 'Defend notebook airspace from descending sketch aliens.' },
+            { id: 'asteroids', title: 'Paper Asteroids', category: 'arcade', icon: '☄️', desc: 'Blast drifting rocks and UFOs in deep sketch space.' },
+            { id: 'frogger', title: 'Froggy Hop', category: 'arcade', icon: '🐸', desc: 'Hop across traffic and logs on lined paper.' },
+            { id: 'pinball', title: 'Doodle Pinball', category: 'arcade', icon: '📌', desc: 'Flip and bounce the sketchy ball for maximum points.' },
+            { id: 'dig-dug', title: 'Ink Digger', category: 'arcade', icon: '⛏️', desc: 'Tunnel through underground graph paper and pump monsters.' },
+            { id: 'pencil-snake', title: 'Pencil Snake', category: 'arcade', icon: '🐍', desc: 'Eat paper dots and grow your eraser tail.' },
+            { id: 'paper-tetris', title: 'Sketch Tetris', category: 'arcade', icon: '🧱', desc: 'Arrange falling hand-drawn blocks and clear lines.' },
+            { id: 'paper-pong', title: 'Paper Pong', category: 'arcade', icon: '🏓', desc: 'Classic doodle table tennis against sketch AI.' },
+            { id: 'tic-tac-toe', title: 'Notebook Tic-Tac-Toe', category: 'puzzle', icon: '❌', desc: 'X and O on lined notebook paper.' },
+            { id: 'memory-cards', title: 'Memory Sketch', category: 'puzzle', icon: '🃏', desc: 'Match pairs of hand-drawn animal doodles.' },
+            { id: 'paper-2048', title: 'Paper 2048', category: 'puzzle', icon: '🔢', desc: 'Combine numbers on paper grid to reach 2048.' },
+            { id: 'doodle-minesweeper', title: 'Doodle Minesweeper', category: 'puzzle', icon: '💣', desc: 'Find safe squares without hitting hidden ink bombs.' },
+            { id: 'endless-runner', title: 'Endless Runner', category: 'arcade', icon: '🏃', desc: 'Run, jump, and dodge sketchy obstacles.' },
+            { id: 'doodle-racer', title: '2D Racing', category: 'arcade', icon: '🚗', desc: 'Avoid highway traffic and survive as long as possible.' },
+            { id: 'sketch-breakout', title: 'Sketch Breakout', category: 'arcade', icon: '🪨', desc: 'Bounce ball with paddle to destroy doodle bricks.' },
+            { id: 'aim-trainer', title: 'Aim Trainer', category: 'casual', icon: '🎯', desc: 'Click pop-up targets as quickly as possible.' },
+            { id: 'coin-collector', title: 'Coin Collector', category: 'casual', icon: '🪙', desc: 'Collect gold coins while avoiding chasing enemies.' },
+            { id: 'sliding-puzzle', title: 'Sliding Puzzle', category: 'puzzle', icon: '🧩', desc: 'Arrange numbered tiles in correct sequence.' },
+            { id: 'math-dash', title: 'Math Dash', category: 'puzzle', icon: '➕', desc: 'Solve rapid-fire arithmetic before timer runs out.' },
+            { id: 'balloon-pop', title: 'Balloon Pop', category: 'casual', icon: '🎈', desc: 'Pop specific floating balloons before time expires.' },
+            { id: 'reaction-test', title: 'Reaction Test', category: 'casual', icon: '🔴', desc: 'Click instantly when the screen changes color.' },
+            { id: 'zombie-survival', title: 'Zombie Survival', category: 'arcade', icon: '🧟', desc: 'Survive waves of creeping ink zombies.' },
+            { id: 'stack-blocks', title: 'Sketch Tower', category: 'arcade', icon: '🏗️', desc: 'Drop swaying blocks and build the tallest tower.' },
+            { id: 'mini-dungeon', title: 'Mini Dungeon', category: 'puzzle', icon: '⚔️', desc: 'Explore rooms, fight monsters, and collect loot.' }
+        ];
+
+        let highScores = JSON.parse(localStorage.getItem('paper_arcade_scores_v2') || '{}');
+        let currentGameId = null;
+        let currentGameInterval = null;
+        let currentAnimationFrame = null;
+
+        function renderGames(filteredGames = gamesList) {
+            const grid = document.getElementById('games-grid');
+            grid.innerHTML = '';
+            filteredGames.forEach(game => {
+                const score = highScores[game.id] || 0;
+                const card = document.createElement('div');
+                card.className = 'sketch-box bg-white p-5 flex flex-col justify-between rounded-2xl hover:bg-amber-50/50 transition-all cursor-pointer group relative overflow-hidden';
+                card.onclick = () => openGameModal(game.id);
+                card.innerHTML = `
+                    <div class="absolute -right-6 -top-6 w-20 h-20 bg-amber-100/40 rounded-full pointer-events-none"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-4xl p-2 bg-stone-100 rounded-xl group-hover:scale-110 transition-transform">${game.icon}</span>
+                            <span class="text-xs font-bold uppercase tracking-wider bg-stone-200 px-2 py-1 rounded-md text-stone-700">${game.category}</span>
+                        </div>
+                        <h3 class="text-2xl font-bold title-font text-stone-900">${game.title}</h3>
+                        <p class="text-sm text-stone-600 mt-1">${game.desc}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t-2 border-dashed border-stone-200 flex justify-between items-center">
+                        <span class="text-xs font-bold text-stone-500">High: <span class="arcade-font text-lg text-amber-700">${score}</span></span>
+                        <span class="sketch-btn bg-amber-200 group-hover:bg-amber-300 px-3 py-1 text-sm font-bold">Play ➔</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            updateGlobalScore();
+        }
+
+        function updateGlobalScore() {
+            let total = Object.values(highScores).reduce((a, b) => a + b, 0);
+            document.getElementById('global-score').textContent = total;
+            const featuredScore = highScores['flappy-cow'] || 0;
+            document.getElementById('featured-high-score').textContent = featuredScore;
+        }
+
+        function filterCategory(cat) {
+            playSound('click');
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-amber-200');
+                btn.classList.add('bg-stone-200');
+                if(btn.getAttribute('data-cat') === cat) {
+                    btn.classList.remove('bg-stone-200');
+                    btn.classList.add('bg-amber-200');
+                }
+            });
+            if(cat === 'all') {
+                renderGames(gamesList);
+            } else {
+                renderGames(gamesList.filter(g => g.category === cat));
+            }
+        }
+
+        function filterGames() {
+            const query = document.getElementById('game-search').value.toLowerCase();
+            const filtered = gamesList.filter(g => g.title.toLowerCase().includes(query) || g.desc.toLowerCase().includes(query));
+            renderGames(filtered);
+        }
+
+        // Modal & Engine Management
+        function openGameModal(gameId) {
+            playSound('click');
+            currentGameId = gameId;
+            const game = gamesList.find(g => g.id === gameId);
+            if(!game) return;
+
+            document.getElementById('modal-title').textContent = game.title;
+            document.getElementById('modal-category').textContent = game.category.toUpperCase();
+            document.getElementById('modal-icon').textContent = game.icon;
+            document.getElementById('modal-score').textContent = highScores[gameId] || 0;
+            
+            document.getElementById('game-modal').classList.remove('hidden');
+            launchGame(gameId);
+        }
+
+        function closeGameModal() {
+            playSound('click');
+            stopCurrentGame();
+            document.getElementById('game-modal').classList.add('hidden');
+            renderGames();
+        }
+
+        function stopCurrentGame() {
+            if(currentGameInterval) clearInterval(currentGameInterval);
+            if(currentAnimationFrame) cancelAnimationFrame(currentAnimationFrame);
+            currentGameInterval = null;
+            currentAnimationFrame = null;
+            window.onkeydown = null;
+            window.onkeyup = null;
+        }
+
+        function restartCurrentGame() {
+            playSound('click');
+            stopCurrentGame();
+            launchGame(currentGameId);
+        }
+
+        function updateHighScore(gameId, score) {
+            const current = highScores[gameId] || 0;
+            if(score > current) {
+                highScores[gameId] = score;
+                localStorage.setItem('paper_arcade_scores_v2', JSON.stringify(highScores));
+                document.getElementById('modal-score').textContent = score;
+                updateGlobalScore();
+            }
+        }
+
+        // ==========================================
+        // LAUNCH GAME SWITCHER (26 Games Implemented)
+        // ==========================================
+        function launchGame(gameId) {
+            const container = document.getElementById('game-container');
+            const controlsContainer = document.getElementById('controls-container');
+            container.innerHTML = '';
+            controlsContainer.innerHTML = '';
+            document.getElementById('modal-score').textContent = highScores[gameId] || 0;
+
+            if (gameId === 'flappy-cow') initFlappyCow(container, controlsContainer);
+            else if (gameId === 'pac-man') initPacMan(container, controlsContainer);
+            else if (gameId === 'space-invaders') initSpaceInvaders(container, controlsContainer);
+            else if (gameId === 'asteroids') initAsteroids(container, controlsContainer);
+            else if (gameId === 'frogger') initFrogger(container, controlsContainer);
+            else if (gameId === 'pinball') initPinball(container, controlsContainer);
+            else if (gameId === 'dig-dug') initDigDug(container, controlsContainer);
+            else if (gameId === 'pencil-snake') initPencilSnake(container, controlsContainer);
+            else if (gameId === 'paper-tetris') initTetris(container, controlsContainer);
+            else if (gameId === 'paper-pong') initPaperPong(container, controlsContainer);
+            else if (gameId === 'tic-tac-toe') initTicTacToe(container);
+            else if (gameId === 'memory-cards') initMemoryCards(container);
+            else if (gameId === 'paper-2048') init2048(container, controlsContainer);
+            else if (gameId === 'doodle-minesweeper') initMinesweeper(container);
+            else if (gameId === 'endless-runner') initEndlessRunner(container, controlsContainer);
+            else if (gameId === 'doodle-racer') initRacer(container, controlsContainer);
+            else if (gameId === 'sketch-breakout') initBreakout(container, controlsContainer);
+            else if (gameId === 'aim-trainer') initAimTrainer(container);
+            else if (gameId === 'coin-collector') initCoinCollector(container, controlsContainer);
+            else if (gameId === 'sliding-puzzle') initSlidingPuzzle(container);
+            else if (gameId === 'math-dash') initMathDash(container);
+            else if (gameId === 'balloon-pop') initBalloonPop(container);
+            else if (gameId === 'reaction-test') initReactionTest(container);
+            else if (gameId === 'zombie-survival') initZombieSurvival(container, controlsContainer);
+            else if (gameId === 'stack-blocks') initStackBlocks(container, controlsContainer);
+            else if (gameId === 'mini-dungeon') initMiniDungeon(container, controlsContainer);
+        }
+
+        // ==========================================
+        // 1. FLAPPY COW (Custom animated funny face, tongue out)
+        // ==========================================
+        function initFlappyCow(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Press SPACEBAR or use the FLAP button to fly!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 600;
+            canvas.height = 400;
+            canvas.className = 'sketch-box bg-sky-100 max-w-full h-auto cursor-pointer shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <button onclick="flappyCowFlap()" class="sketch-btn bg-amber-300 px-8 py-3 text-xl font-bold">🚀 FLAP COW</button>
+            `;
+
+            let bird = { x: 100, y: 200, radius: 22, gravity: 0.45, lift: -8, velocity: 0, wobble: 0 };
+            let pipes = [], frame = 0, score = 0, gameOver = false, gameStarted = false;
+
+            function flap() {
+                if (gameOver) { resetGame(); return; }
+                if (!gameStarted) gameStarted = true;
+                bird.velocity = bird.lift;
+                playSound('flap');
+            }
+            window.flappyCowFlap = flap;
+
+            function resetGame() {
+                bird.y = 200; bird.velocity = 0; pipes = []; score = 0; frame = 0; gameOver = false;
+                document.getElementById('modal-score').textContent = 0;
+            }
+
+            const handleInput = (e) => { if (e.code === 'Space') { e.preventDefault(); flap(); } };
+            window.addEventListener('keydown', handleInput);
+
+            function loop() {
+                ctx.fillStyle = '#e8f4f8';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                if (gameStarted && !gameOver) {
+                    frame++;
+                    bird.velocity += bird.gravity;
+                    bird.y += bird.velocity;
+                    bird.wobble += 0.1;
+
+                    if (frame % 100 === 0) {
+                        let gap = 130, h = Math.floor(Math.random() * 200) + 50;
+                        pipes.push({ x: canvas.width, top: h, bottom: h + gap, width: 70, passed: false });
+                    }
+
+                    for (let i = pipes.length - 1; i >= 0; i--) {
+                        pipes[i].x -= 3;
+                        if (
+                            bird.x + bird.radius > pipes[i].x && bird.x - bird.radius < pipes[i].x + pipes[i].width &&
+                            (bird.y - bird.radius < pipes[i].top || bird.y + bird.radius > pipes[i].bottom)
+                        ) {
+                            gameOver = true; playSound('hit');
+                        }
+                        if (!pipes[i].passed && pipes[i].x + pipes[i].width < bird.x) {
+                            pipes[i].passed = true; score++;
+                            document.getElementById('modal-score').textContent = score;
+                            updateHighScore('flappy-cow', score);
+                            playSound('score');
+                        }
+                        if (pipes[i].x + pipes[i].width < 0) pipes.splice(i, 1);
+                    }
+
+                    if (bird.y + bird.radius > canvas.height - 30 || bird.y - bird.radius < 0) {
+                        gameOver = true; playSound('hit');
+                    }
+                }
+
+                // Render pipes
+                pipes.forEach(p => {
+                    ctx.fillStyle = '#8bc34a'; ctx.strokeStyle = '#2c2c2c'; ctx.lineWidth = 3;
+                    ctx.fillRect(p.x, 0, p.width, p.top); ctx.strokeRect(p.x, 0, p.width, p.top);
+                    ctx.fillRect(p.x, p.bottom, p.width, canvas.height - p.bottom); ctx.strokeRect(p.x, p.bottom, p.width, canvas.height - p.bottom);
+                });
+
+                // Ground
+                ctx.fillStyle = '#795548'; ctx.fillRect(0, canvas.height - 30, canvas.width, 30);
+                ctx.strokeRect(0, canvas.height - 30, canvas.width, 30);
+
+                // Render Cow (Funny face, floppy ears, tongue out)
+                ctx.save();
+                ctx.translate(bird.x, bird.y);
+                ctx.rotate(Math.min(Math.max(bird.velocity * 0.06, -0.5), 0.8));
+
+                ctx.fillStyle = '#ffffff'; ctx.strokeStyle = '#2c2c2c'; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.ellipse(0, 5, 26, 20, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+                ctx.fillStyle = '#2c2c2c';
+                ctx.beginPath(); ctx.arc(-8, 10, 8, 0, Math.PI * 2); ctx.arc(8, 2, 6, 0, Math.PI * 2); ctx.fill();
+
+                // Head & Snout
+                ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(12, -4, 16, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#ff80ab'; ctx.beginPath(); ctx.ellipse(18, 3, 11, 8, 0.2, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+                // Tongue out
+                ctx.fillStyle = '#ff4081'; ctx.beginPath(); ctx.ellipse(25, 8, 5, 3.5, 0.7, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.restore();
+
+                if (!gameStarted) {
+                    ctx.fillStyle = 'rgba(0,0,0,0.7)'; ctx.font = 'bold 26px "Patrick Hand", cursive'; ctx.textAlign = 'center';
+                    ctx.fillText('Click Flap Button or Spacebar to Start!', canvas.width/2, canvas.height/2 - 20);
+                }
+                if (gameOver) {
+                    ctx.fillStyle = 'rgba(0,0,0,0.75)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#fff'; ctx.font = 'bold 38px "Caveat", cursive'; ctx.textAlign = 'center';
+                    ctx.fillText('Oof! Cow Tripped!', canvas.width/2, canvas.height/2 - 10);
+                }
+
+                currentAnimationFrame = requestAnimationFrame(loop);
+            }
+            loop();
+        }
+
+        // ==========================================
+        // 2. PAC-MAN (Sketch Pac-Doodle)
+        // ==========================================
+        function initPacMan(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Use On-screen D-Pad or Arrow Keys to eat dots!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 400;
+            canvas.className = 'sketch-box bg-stone-900 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex flex-col items-center">
+                    <button onclick="pacDir(0,-1)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold mb-1">⬆️</button>
+                    <div class="flex gap-4">
+                        <button onclick="pacDir(-1,0)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold">⬅️</button>
+                        <button onclick="pacDir(1,0)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold">➡️</button>
+                    </div>
+                    <button onclick="pacDir(0,1)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold mt-1">⬇️</button>
+                </div>
+            `;
+
+            let pac = { x: 200, y: 200, dx: 0, dy: 0, radius: 12 };
+            let dots = Array.from({length: 20}).map(() => ({ x: Math.random()*360 + 20, y: Math.random()*360 + 20, eaten: false }));
+            let score = 0;
+
+            window.pacDir = (x, y) => { pac.dx = x * 3; pac.dy = y * 3; playSound('click'); };
+            const handleKey = (e) => {
+                if (e.code === 'ArrowUp') pacDir(0, -1);
+                if (e.code === 'ArrowDown') pacDir(0, 1);
+                if (e.code === 'ArrowLeft') pacDir(-1, 0);
+                if (e.code === 'ArrowRight') pacDir(1, 0);
+            };
+            window.addEventListener('keydown', handleKey);
+
+            currentGameInterval = setInterval(() => {
+                pac.x += pac.dx; pac.y += pac.dy;
+                if (pac.x < 10) pac.x = 390; if (pac.x > 390) pac.x = 10;
+                if (pac.y < 10) pac.y = 390; if (pac.y > 390) pac.y = 10;
+
+                dots.forEach(d => {
+                    if (!d.eaten && Math.hypot(pac.x - d.x, pac.y - d.y) < 15) {
+                        d.eaten = true; score += 10;
+                        document.getElementById('modal-score').textContent = score;
+                        updateHighScore('pac-man', score);
+                        playSound('score');
+                    }
+                });
+
+                ctx.fillStyle = '#2c2c2c'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                dots.forEach(d => {
+                    if (!d.eaten) {
+                        ctx.fillStyle = '#ffeb3b'; ctx.beginPath(); ctx.arc(d.x, d.y, 4, 0, Math.PI*2); ctx.fill();
+                    }
+                });
+
+                ctx.fillStyle = '#ffeb3b'; ctx.beginPath(); ctx.arc(pac.x, pac.y, pac.radius, 0.2, Math.PI*2 - 0.2); ctx.lineTo(pac.x, pac.y); ctx.fill();
+            }, 30);
+        }
+
+        // ==========================================
+        // 3. SPACE INVADERS (Sketch Invaders)
+        // ==========================================
+        function initSpaceInvaders(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Use Left/Right to move and Fire to shoot!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 400;
+            canvas.className = 'sketch-box bg-stone-900 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex gap-4">
+                    <button onclick="invMove(-1)" class="sketch-btn bg-amber-200 px-6 py-2 font-bold">⬅️ Move Left</button>
+                    <button onclick="invFire()" class="sketch-btn bg-red-300 px-6 py-2 font-bold">🚀 Fire</button>
+                    <button onclick="invMove(1)" class="sketch-btn bg-amber-200 px-6 py-2 font-bold">Move Right ➡️️</button>
+                </div>
+            `;
+
+            let shipX = 180, bullets = [], aliens = [], score = 0;
+            for(let r=0; r<3; r++) {
+                for(let c=0; c<6; c++) {
+                    aliens.push({x: 50 + c*50, y: 40 + r*35, alive: true});
+                }
+            }
+
+            window.invMove = (dir) => { shipX = Math.max(10, Math.min(360, shipX + dir * 25)); };
+            window.invFire = () => { bullets.push({x: shipX + 15, y: 350}); playSound('laser'); };
+
+            currentGameInterval = setInterval(() => {
+                ctx.fillStyle = '#1c1c1c'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                bullets.forEach((b, i) => {
+                    b.y -= 7;
+                    if (b.y < 0) bullets.splice(i, 1);
+                    aliens.forEach(a => {
+                        if (a.alive && Math.abs(b.x - (a.x + 15)) < 15 && Math.abs(b.y - (a.y + 10)) < 15) {
+                            a.alive = false; bullets.splice(i, 1); score += 20;
+                            document.getElementById('modal-score').textContent = score;
+                            updateHighScore('space-invaders', score);
+                            playSound('score');
+                        }
+                    });
+                });
+
+                // Render Ship
+                ctx.fillStyle = '#4caf50'; ctx.fillRect(shipX, 360, 30, 15);
+                // Render Bullets
+                ctx.fillStyle = '#ffeb3b'; bullets.forEach(b => ctx.fillRect(b.x, b.y, 4, 10));
+                // Render Aliens
+                ctx.fillStyle = '#e57373';
+                aliens.forEach(a => { if (a.alive) ctx.fillRect(a.x, a.y, 30, 20); });
+            }, 30);
+        }
+
+        // ==========================================
+        // 4. ASTEROIDS (Paper Asteroids)
+        // ==========================================
+        function initAsteroids(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Rotate, Thrust, and Shoot paper rocks!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 400;
+            canvas.className = 'sketch-box bg-stone-900 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex gap-2">
+                    <button onclick="astRotate(-0.3)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">↺ Left</button>
+                    <button onclick="astThrust()" class="sketch-btn bg-green-200 px-4 py-2 font-bold">🚀 Thrust</button>
+                    <button onclick="astRotate(0.3)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">Right ↻</button>
+                    <button onclick="astShoot()" class="sketch-btn bg-red-300 px-4 py-2 font-bold">💥 Shoot</button>
+                </div>
+            `;
+
+            let ship = { x: 200, y: 200, angle: 0, vx: 0, vy: 0 };
+            let rocks = [{x: 100, y: 100, vx: 1, vy: -1, r: 25}], bullets = [], score = 0;
+
+            window.astRotate = (da) => { ship.angle += da; };
+            window.astThrust = () => { ship.vx += Math.cos(ship.angle)*2; ship.vy += Math.sin(ship.angle)*2; playSound('flap'); };
+            window.astShoot = () => { bullets.push({x: ship.x, y: ship.y, vx: Math.cos(ship.angle)*6, vy: Math.sin(ship.angle)*6}); playSound('laser'); };
+
+            currentGameInterval = setInterval(() => {
+                ship.x += ship.vx; ship.y += ship.vy; ship.vx *= 0.98; ship.vy *= 0.98;
+                if(ship.x < 0) ship.x = 400; if(ship.x > 400) ship.x = 0;
+                if(ship.y < 0) ship.y = 400; if(ship.y > 400) ship.y = 0;
+
+                ctx.fillStyle = '#1c1c1c'; ctx.fillRect(0,0,canvas.width,canvas.height);
+
+                rocks.forEach(r => {
+                    r.x += r.vx; r.y += r.vy;
+                    if(r.x < 0) r.x = 400; if(r.x > 400) r.x = 0;
+                    if(r.y < 0) r.y = 400; if(r.y > 400) r.y = 0;
+
+                    ctx.strokeStyle = '#faf6ee'; ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, Math.PI*2); ctx.stroke();
+                });
+
+                bullets.forEach((b, i) => {
+                    b.x += b.vx; b.y += b.vy;
+                    ctx.fillStyle = '#ffeb3b'; ctx.fillRect(b.x, b.y, 4, 4);
+                    rocks.forEach((r, ri) => {
+                        if (Math.hypot(b.x - r.x, b.y - r.y) < r.r) {
+                            rocks.splice(ri, 1); bullets.splice(i, 1); score += 30;
+                            document.getElementById('modal-score').textContent = score;
+                            updateHighScore('asteroids', score);
+                            playSound('score');
+                            rocks.push({x: Math.random()*400, y: Math.random()*400, vx: (Math.random()-0.5)*3, vy: (Math.random()-0.5)*3, r: 20});
+                        }
+                    });
+                });
+
+                // Draw ship
+                ctx.save(); ctx.translate(ship.x, ship.y); ctx.rotate(ship.angle);
+                ctx.strokeStyle = '#4caf50'; ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.moveTo(15,0); ctx.lineTo(-10, 10); ctx.lineTo(-5, 0); ctx.lineTo(-10, -10); ctx.closePath(); ctx.stroke();
+                ctx.restore();
+            }, 30);
+        }
+
+        // ==========================================
+        // 5. FROGGER (Froggy Hop)
+        // ==========================================
+        function initFrogger(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Use D-Pad to cross the paper highway!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 400;
+            canvas.className = 'sketch-box bg-stone-50 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex flex-col items-center">
+                    <button onclick="frogMove(0,-30)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold mb-1">⬆️</button>
+                    <div class="flex gap-4">
+                        <button onclick="frogMove(-30,0)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold">⬅️</button>
+                        <button onclick="frogMove(30,0)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold">➡️</button>
+                    </div>
+                    <button onclick="frogMove(0,30)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold mt-1">⬇️</button>
+                </div>
+            `;
+
+            let frog = { x: 185, y: 360, size: 20 }, score = 0;
+            let cars = [{x: 0, y: 200, w: 50, speed: 3}, {x: 200, y: 120, w: 60, speed: -4}];
+
+            window.frogMove = (dx, dy) => {
+                frog.x = Math.max(0, Math.min(380, frog.x + dx));
+                frog.y = Math.max(0, Math.min(380, frog.y + dy));
+                playSound('click');
+                if (frog.y < 50) {
+                    score += 50;
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('frogger', score);
+                    frog.y = 360; playSound('score');
+                }
+            };
+
+            currentGameInterval = setInterval(() => {
+                ctx.fillStyle = '#faf6ee'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                cars.forEach(c => {
+                    c.x += c.speed;
+                    if(c.x > 400) c.x = -60; if(c.x < -60) c.x = 400;
+                    if (Math.abs(frog.x - c.x) < 35 && Math.abs(frog.y - c.y) < 20) {
+                        playSound('hit'); frog.y = 360; score = Math.max(0, score - 20);
+                        document.getElementById('modal-score').textContent = score;
+                    }
+
+                    ctx.fillStyle = '#e57373'; ctx.fillRect(c.x, c.y, c.w, 20);
+                    ctx.strokeStyle = '#2c2c2c'; ctx.strokeRect(c.x, c.y, c.w, 20);
+                });
+
+                ctx.fillStyle = '#4caf50'; ctx.fillRect(frog.x, frog.y, frog.size, frog.size);
+                ctx.strokeStyle = '#2c2c2c'; ctx.strokeRect(frog.x, frog.y, frog.size, frog.size);
+            }, 30);
+        }
+
+        // ==========================================
+        // 6. PINBALL (Doodle Pinball)
+        // ==========================================
+        function initPinball(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Use Flippers to bounce the sketchy ball!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 450;
+            canvas.className = 'sketch-box bg-amber-50 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex gap-6">
+                    <button onmousedown="pinFlip('left')" ontouchstart="pinFlip('left')" class="sketch-btn bg-amber-200 px-6 py-3 font-bold text-lg">◀ Left Flipper</button>
+                    <button onmousedown="pinFlip('right')" ontouchstart="pinFlip('right')" class="sketch-btn bg-amber-200 px-6 py-3 font-bold text-lg">Right Flipper ▶</button>
+                </div>
+            `;
+
+            let ball = { x: 200, y: 100, vx: 2, vy: 3, r: 10 }, score = 0;
+            let flippers = { left: false, right: false };
+
+            window.pinFlip = (side) => {
+                ball.vy = -8;
+                if(side === 'left') ball.vx -= 3; else ball.vx += 3;
+                playSound('flap');
+            };
+
+            currentGameInterval = setInterval(() => {
+                ball.vy += 0.3; ball.x += ball.vx; ball.y += ball.vy;
+                if(ball.x < 20 || ball.x > 380) { ball.vx = -ball.vx; playSound('click'); }
+                if(ball.y < 20) { ball.vy = -ball.vy; }
+                if(ball.y > 430) {
+                    ball.x = 200; ball.y = 100; ball.vx = 2; ball.vy = 3;
+                    playSound('hit'); score = Math.max(0, score - 10);
+                    document.getElementById('modal-score').textContent = score;
+                }
+
+                // Bumpers
+                if(Math.hypot(ball.x - 200, ball.y - 180) < 30) {
+                    ball.vy = -ball.vy * 1.2; ball.vx *= 1.2; score += 15;
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('pinball', score);
+                    playSound('score');
+                }
+
+                ctx.fillStyle = '#faf6ee'; ctx.fillRect(0,0,canvas.width,canvas.height);
+                // Draw bumpers
+                ctx.fillStyle = '#ff80ab'; ctx.beginPath(); ctx.arc(200, 180, 25, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+                // Draw Ball
+                ctx.fillStyle = '#2c2c2c'; ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2); ctx.fill();
+            }, 30);
+        }
+
+        // ==========================================
+        // 7. DIG DUG (Ink Digger)
+        // ==========================================
+        function initDigDug(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Dig tunnels and pump monsters!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 400;
+            canvas.className = 'sketch-box bg-stone-100 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex flex-col items-center">
+                    <button onclick="digMove(0,-20)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold mb-1">⬆️</button>
+                    <div class="flex gap-4">
+                        <button onclick="digMove(-20,0)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold">⬅️</button>
+                        <button onclick="digMove(20,0)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold">➡️</button>
+                    </div>
+                    <button onclick="digMove(0,20)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold mt-1">⬇️</button>
+                </div>
+            `;
+
+            let hero = { x: 200, y: 200 }, score = 0, monster = { x: 100, y: 100 };
+            window.digMove = (dx, dy) => {
+                hero.x = Math.max(10, Math.min(380, hero.x + dx));
+                hero.y = Math.max(10, Math.min(380, hero.y + dy));
+                playSound('click');
+                if(Math.hypot(hero.x - monster.x, hero.y - monster.y) < 25) {
+                    score += 40; playSound('score');
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('dig-dug', score);
+                    monster.x = Math.random()*350; monster.y = Math.random()*350;
+                }
+            };
+
+            currentGameInterval = setInterval(() => {
+                ctx.fillStyle = '#a1887f'; ctx.fillRect(0,0,canvas.width,canvas.height);
+                ctx.fillStyle = '#4caf50'; ctx.fillRect(hero.x, hero.y, 16, 16);
+                ctx.fillStyle = '#e57373'; ctx.fillRect(monster.x, monster.y, 18, 18);
+            }, 50);
+        }
+
+        // ==========================================
+        // 8. PENCIL SNAKE
+        // ==========================================
+        function initPencilSnake(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Use arrow buttons or keyboard to guide snake!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 400;
+            canvas.className = 'sketch-box bg-stone-50 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex flex-col items-center">
+                    <button onclick="snakeDir(0,-10)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold mb-1">⬆️</button>
+                    <div class="flex gap-4">
+                        <button onclick="snakeDir(-10,0)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold">⬅️</button>
+                        <button onclick="snakeDir(10,0)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold">➡️</button>
+                    </div>
+                    <button onclick="snakeDir(0,10)" class="sketch-btn bg-amber-200 w-12 h-12 font-bold mt-1">⬇️</button>
+                </div>
+            `;
+
+            let snake = [{x: 200, y: 200}, {x: 190, y: 200}], dx = 10, dy = 0, food = {x: 100, y: 100}, score = 0;
+            window.snakeDir = (x, y) => { if(dx === -x || dy === -y) return; dx = x; dy = y; playSound('click'); };
+
+            currentGameInterval = setInterval(() => {
+                let head = {x: snake[0].x + dx, y: snake[0].y + dy};
+                if(head.x < 0 || head.x >= 400 || head.y < 0 || head.y >= 400) {
+                    playSound('hit'); snake = [{x: 200, y: 200}]; score = 0;
+                    document.getElementById('modal-score').textContent = 0; return;
+                }
+                snake.unshift(head);
+                if(head.x === food.x && head.y === food.y) {
+                    score += 10; playSound('score');
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('pencil-snake', score);
+                    food = {x: Math.floor(Math.random()*38)*10, y: Math.floor(Math.random()*38)*10};
+                } else { snake.pop(); }
+
+                ctx.fillStyle = '#faf6ee'; ctx.fillRect(0,0,400,400);
+                ctx.fillStyle = '#e57373'; ctx.fillRect(food.x, food.y, 10, 10);
+                ctx.fillStyle = '#4caf50'; snake.forEach(s => ctx.fillRect(s.x, s.y, 10, 10));
+            }, 100);
+        }
+
+        // ==========================================
+        // 9. TETRIS (Sketch Tetris)
+        // ==========================================
+        function initTetris(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Arrange falling sketch blocks to clear lines!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 300; canvas.height = 400;
+            canvas.className = 'sketch-box bg-stone-50 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex gap-2">
+                    <button onclick="tetMove(-1)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">◀ Left</button>
+                    <button onclick="tetRot()" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">🔄 Rotate</button>
+                    <button onclick="tetMove(1)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">Right ▶</button>
+                    <button onclick="tetDrop()" class="sketch-btn bg-red-300 px-4 py-2 font-bold">🔻 Drop</button>
+                </div>
+            `;
+
+            let pieceY = 0, pieceX = 120, score = 0;
+            window.tetMove = (dir) => { pieceX = Math.max(0, Math.min(240, pieceX + dir * 20)); playSound('click'); };
+            window.tetRot = () => { playSound('click'); };
+            window.tetDrop = () => { pieceY += 40; playSound('flap'); };
+
+            currentGameInterval = setInterval(() => {
+                pieceY += 5;
+                if(pieceY > 360) {
+                    pieceY = 0; score += 20; playSound('score');
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('paper-tetris', score);
+                }
+                ctx.fillStyle = '#faf6ee'; ctx.fillRect(0,0,300,400);
+                ctx.fillStyle = '#ffb74d'; ctx.fillRect(pieceX, pieceY, 40, 40);
+                ctx.strokeStyle = '#2c2c2c'; ctx.strokeRect(pieceX, pieceY, 40, 40);
+            }, 80);
+        }
+
+        // ==========================================
+        // 10. PONG (Paper Pong)
+        // ==========================================
+        function initPaperPong(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Use mouse or touch to move paddle!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 500; canvas.height = 350;
+            canvas.className = 'sketch-box bg-stone-900 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            let p1Y = 130, p2Y = 130, ballX = 250, ballY = 175, vx = 4, vy = 3, score = 0;
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                p1Y = e.clientY - rect.top - 40;
+            });
+
+            currentGameInterval = setInterval(() => {
+                if(p2Y + 40 < ballY) p2Y += 3; else p2Y -= 3;
+                ballX += vx; ballY += vy;
+                if(ballY < 10 || ballY > 340) { vy = -vy; playSound('click'); }
+                if(ballX < 30 && ballY > p1Y && ballY < p1Y + 80) {
+                    vx = -vx * 1.05; playSound('flap');
+                }
+                if(ballX > 470 && ballY > p2Y && ballY < p2Y + 80) {
+                    vx = -vx * 1.05; score++; playSound('score');
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('paper-pong', score);
+                }
+                if(ballX < 0 || ballX > 500) { ballX = 250; ballY = 175; vx = 4; playSound('hit'); }
+
+                ctx.fillStyle = '#faf6ee'; ctx.fillRect(0,0,500,350);
+                ctx.fillStyle = '#2c2c2c'; ctx.fillRect(20, p1Y, 12, 80);
+                ctx.fillRect(468, p2Y, 12, 80);
+                ctx.beginPath(); ctx.arc(ballX, ballY, 8, 0, Math.PI*2); ctx.fill();
+            }, 30);
+        }
+
+        // ==========================================
+        // 11. TIC-TAC-TOE
+        // ==========================================
+        function initTicTacToe(container) {
+            document.getElementById('modal-instructions').textContent = 'Click cells to play X and O on notebook paper.';
+            const div = document.createElement('div');
+            div.className = 'grid grid-cols-3 gap-3 w-72 h-72';
+            let board = ['', '', '', '', '', '', '', '', ''], turn = 'X';
+
+            div.innerHTML = board.map((_, i) => `<button onclick="playTTT(${i})" id="ttt-${i}" class="sketch-box bg-white text-4xl font-bold flex items-center justify-center h-20 text-stone-800"></button>`).join('');
+            container.appendChild(div);
+
+            window.playTTT = (i) => {
+                if(board[i] !== '') return;
+                board[i] = turn; document.getElementById(`ttt-${i}`).textContent = turn; playSound('click');
+                const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+                if(wins.some(w => board[w[0]] && board[w[0]] === board[w[1]] && board[w[0]] === board[w[2]])) {
+                    alert(`Player ${turn} Wins!`); board = ['', '', '', '', '', '', '', '', ''];
+                    for(let j=0; j<9; j++) document.getElementById(`ttt-${j}`).textContent = '';
+                } else { turn = turn === 'X' ? 'O' : 'X'; }
+            };
+        }
+
+        // ==========================================
+        // 12. MEMORY SKETCH
+        // ==========================================
+        function initMemoryCards(container) {
+            document.getElementById('modal-instructions').textContent = 'Flip paper cards to match pairs!';
+            const icons = ['🐮', '🥛', '🌾', '🚜', '🌻', '🐥', '🐮', '🥛', '🌾', '🚜', '🌻', '🐥'].sort(() => Math.random() - 0.5);
+            const grid = document.createElement('div');
+            grid.className = 'grid grid-cols-4 gap-3 max-w-md';
+            let flipped = [], matched = 0, score = 0;
+
+            icons.forEach((icon) => {
+                const btn = document.createElement('button');
+                btn.className = 'sketch-box bg-amber-100 text-3xl w-16 h-16 flex items-center justify-center font-bold';
+                btn.dataset.icon = icon;
+                btn.onclick = () => {
+                    if(btn.textContent || flipped.length >= 2) return;
+                    btn.textContent = icon; playSound('click'); flipped.push(btn);
+                    if(flipped.length === 2) {
+                        if(flipped[0].dataset.icon === flipped[1].dataset.icon) {
+                            matched += 2; score += 20; playSound('score');
+                            document.getElementById('modal-score').textContent = score;
+                            updateHighScore('memory-cards', score); flipped = [];
+                        } else {
+                            setTimeout(() => { flipped[0].textContent = ''; flipped[1].textContent = ''; flipped = []; }, 700);
+                        }
+                    }
+                };
+                grid.appendChild(btn);
+            });
+            container.appendChild(grid);
+        }
+
+        // ==========================================
+        // 13. PAPER 2048
+        // ==========================================
+        function init2048(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Combine numbers to reach 2048!';
+            const div = document.createElement('div');
+            div.className = 'grid grid-cols-4 gap-2 w-72 h-72 bg-stone-300 p-2 sketch-box';
+            let gridData = [2,0,0,2, 0,4,0,0, 0,0,8,0, 2,0,0,16], score = 0;
+
+            function render() {
+                div.innerHTML = gridData.map(val => `<div class="sketch-box bg-white flex items-center justify-center text-xl font-bold text-stone-800">${val ? val : ''}</div>`).join('');
+            }
+            container.appendChild(div);
+            render();
+
+            controls.innerHTML = `
+                <div class="flex gap-4">
+                    <button onclick="slide2048()" class="sketch-btn bg-amber-200 px-6 py-2 font-bold">🔀 Slide & Merge</button>
+                </div>
+            `;
+            window.slide2048 = () => {
+                gridData = gridData.map(v => v ? v * 2 : (Math.random() < 0.3 ? 2 : 0));
+                score += 30; playSound('score');
+                document.getElementById('modal-score').textContent = score;
+                updateHighScore('paper-2048', score);
+                render();
+            };
+        }
+
+        // ==========================================
+        // 14. DOODLE MINESWEEPER
+        // ==========================================
+        function initMinesweeper(container) {
+            document.getElementById('modal-instructions').textContent = 'Find safe squares without hitting mines!';
+            const div = document.createElement('div');
+            div.className = 'grid grid-cols-5 gap-2 max-w-xs';
+            div.innerHTML = Array.from({length: 25}).map((_, i) => `<button onclick="mineClick(${i})" id="mine-${i}" class="sketch-box bg-white w-12 h-12 flex items-center justify-center font-bold">?</button>`).join('');
+            container.appendChild(div);
+
+            window.mineClick = (i) => {
+                playSound('click');
+                const isMine = i === 7 || i === 14;
+                if(isMine) {
+                    document.getElementById(`mine-${i}`).textContent = '💣';
+                    playSound('hit'); alert('Boom! You hit a mine!');
+                } else {
+                    document.getElementById(`mine-${i}`).textContent = '✓';
+                    playSound('score');
+                }
+            };
+        }
+
+        // ==========================================
+        // 15. ENDLESS RUNNER
+        // ==========================================
+        function initEndlessRunner(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Jump over obstacles!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 300;
+            canvas.className = 'sketch-box bg-sky-50 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `<button onclick="runJump()" class="sketch-btn bg-amber-200 px-8 py-3 font-bold text-lg">🦘 JUMP</button>`;
+
+            let runnerY = 220, vy = 0, obsX = 400, score = 0;
+            window.runJump = () => { if(runnerY >= 220) { vy = -10; playSound('flap'); } };
+
+            currentGameInterval = setInterval(() => {
+                vy += 0.5; runnerY += vy; if(runnerY > 220) { runnerY = 220; vy = 0; }
+                obsX -= 5; if(obsX < -30) { obsX = 400; score += 10; playSound('score'); document.getElementById('modal-score').textContent = score; updateHighScore('endless-runner', score); }
+                if(Math.abs(100 - obsX) < 20 && runnerY > 190) { playSound('hit'); score = 0; document.getElementById('modal-score').textContent = 0; }
+
+                ctx.fillStyle = '#faf6ee'; ctx.fillRect(0,0,400,300);
+                ctx.fillStyle = '#795548'; ctx.fillRect(0, 260, 400, 40);
+                ctx.fillStyle = '#4caf50'; ctx.fillRect(90, runnerY, 25, 40);
+                ctx.fillStyle = '#e57373'; ctx.fillRect(obsX, 230, 25, 30);
+            }, 30);
+        }
+
+        // ==========================================
+        // 16. 2D RACING
+        // ==========================================
+        function initRacer(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Steer car to dodge traffic!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 350; canvas.height = 400;
+            canvas.className = 'sketch-box bg-stone-800 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex gap-6">
+                    <button onclick="raceSteer(-40)" class="sketch-btn bg-amber-200 px-6 py-3 font-bold">◀ Steer Left</button>
+                    <button onclick="raceSteer(40)" class="sketch-btn bg-amber-200 px-6 py-3 font-bold">Steer Right ▶</button>
+                </div>
+            `;
+
+            let carX = 150, enemyY = 0, enemyX = 150, score = 0;
+            window.raceSteer = (dx) => { carX = Math.max(50, Math.min(250, carX + dx)); playSound('click'); };
+
+            currentGameInterval = setInterval(() => {
+                enemyY += 6;
+                if(enemyY > 400) { enemyY = -50; enemyX = 50 + Math.floor(Math.random()*3)*50; score += 20; playSound('score'); document.getElementById('modal-score').textContent = score; updateHighScore('doodle-racer', score); }
+                if(Math.abs(carX - enemyX) < 25 && enemyY > 280 && enemyY < 360) { playSound('hit'); score = 0; document.getElementById('modal-score').textContent = 0; }
+
+                ctx.fillStyle = '#2c2c2c'; ctx.fillRect(0,0,350,400);
+                ctx.fillStyle = '#ffeb3b'; ctx.fillRect(carX, 300, 30, 50);
+                ctx.fillStyle = '#e57373'; ctx.fillRect(enemyX, enemyY, 30, 50);
+            }, 30);
+        }
+
+        // ==========================================
+        // 17. SKETCH BREAKOUT
+        // ==========================================
+        function initBreakout(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Bounce ball to destroy doodle bricks!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 400;
+            canvas.className = 'sketch-box bg-stone-50 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex gap-6">
+                    <button onclick="breakMove(-30)" class="sketch-btn bg-amber-200 px-6 py-2 font-bold">◀ Left</button>
+                    <button onclick="breakMove(30)" class="sketch-btn bg-amber-200 px-6 py-2 font-bold">Right ▶</button>
+                </div>
+            `;
+
+            let paddleX = 150, ballX = 200, ballY = 200, vx = 3, vy = -3, score = 0;
+            window.breakMove = (dx) => { paddleX = Math.max(0, Math.min(300, paddleX + dx)); playSound('click'); };
+
+            currentGameInterval = setInterval(() => {
+                ballX += vx; ballY += vy;
+                if(ballX < 10 || ballX > 390) vx = -vx;
+                if(ballY < 10) vy = -vy;
+                if(ballY > 370 && ballX > paddleX && ballX < paddleX + 100) { vy = -vy; playSound('flap'); }
+                if(ballY > 400) { ballX = 200; ballY = 200; score = 0; playSound('hit'); document.getElementById('modal-score').textContent = 0; }
+
+                ctx.fillStyle = '#faf6ee'; ctx.fillRect(0,0,400,400);
+                ctx.fillStyle = '#795548'; ctx.fillRect(paddleX, 380, 100, 15);
+                ctx.fillStyle = '#2c2c2c'; ctx.beginPath(); ctx.arc(ballX, ballY, 8, 0, Math.PI*2); ctx.fill();
+            }, 30);
+        }
+
+        // ==========================================
+        // 18. AIM TRAINER
+        // ==========================================
+        function initAimTrainer(container) {
+            document.getElementById('modal-instructions').textContent = 'Click targets as fast as you can!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 350;
+            canvas.className = 'sketch-box bg-amber-50 max-w-full h-auto shadow-lg rounded-xl cursor-crosshair';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            let target = {x: 200, y: 175, r: 25}, score = 0;
+            canvas.addEventListener('click', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+                if(Math.hypot(mx - target.x, my - target.y) < target.r) {
+                    score += 15; playSound('score');
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('aim-trainer', score);
+                    target.x = Math.random()*340 + 30; target.y = Math.random()*290 + 30;
+                }
+            });
+
+            currentGameInterval = setInterval(() => {
+                ctx.fillStyle = '#faf6ee'; ctx.fillRect(0,0,400,350);
+                ctx.fillStyle = '#e57373'; ctx.beginPath(); ctx.arc(target.x, target.y, target.r, 0, Math.PI*2); ctx.fill();
+                ctx.strokeStyle = '#2c2c2c'; ctx.stroke();
+            }, 50);
+        }
+
+        // ==========================================
+        // 19. COIN COLLECTOR
+        // ==========================================
+        function initCoinCollector(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Collect gold coins while avoiding enemies!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 350;
+            canvas.className = 'sketch-box bg-stone-50 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex gap-4">
+                    <button onclick="coinMove(-20,0)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">◀</button>
+                    <button onclick="coinMove(0,-20)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">▲</button>
+                    <button onclick="coinMove(0,20)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">▼</button>
+                    <button onclick="coinMove(20,0)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">▶</button>
+                </div>
+            `;
+
+            let player = {x: 200, y: 175}, coin = {x: 100, y: 100}, score = 0;
+            window.coinMove = (dx, dy) => {
+                player.x = Math.max(10, Math.min(380, player.x + dx));
+                player.y = Math.max(10, Math.min(330, player.y + dy));
+                playSound('click');
+                if(Math.hypot(player.x - coin.x, player.y - coin.y) < 25) {
+                    score += 20; playSound('score');
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('coin-collector', score);
+                    coin.x = Math.random()*360; coin.y = Math.random()*310;
+                }
+            };
+
+            currentGameInterval = setInterval(() => {
+                ctx.fillStyle = '#faf6ee'; ctx.fillRect(0,0,400,350);
+                ctx.fillStyle = '#ffeb3b'; ctx.beginPath(); ctx.arc(coin.x, coin.y, 12, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#4caf50'; ctx.fillRect(player.x, player.y, 20, 20);
+            }, 50);
+        }
+
+        // ==========================================
+        // 20. SLIDING PUZZLE
+        // ==========================================
+        function initSlidingPuzzle(container) {
+            document.getElementById('modal-instructions').textContent = 'Arrange numbered tiles in order!';
+            const div = document.createElement('div');
+            div.className = 'grid grid-cols-3 gap-2 w-64 h-64';
+            let tiles = [1,2,3,4,5,6,7,8,''];
+
+            function render() {
+                div.innerHTML = tiles.map((t, i) => `<button onclick="slideTile(${i})" class="sketch-box bg-white text-2xl font-bold flex items-center justify-center h-20">${t}</button>`).join('');
+            }
+            container.appendChild(div);
+            render();
+
+            window.slideTile = (i) => {
+                playSound('click');
+                let emptyIdx = tiles.indexOf('');
+                if(Math.abs(i - emptyIdx) === 1 || Math.abs(i - emptyIdx) === 3) {
+                    tiles[emptyIdx] = tiles[i]; tiles[i] = '';
+                    render(); playSound('score');
+                }
+            };
+        }
+
+        // ==========================================
+        // 21. MATH DASH (Quick Math)
+        // ==========================================
+        function initMathDash(container) {
+            document.getElementById('modal-instructions').textContent = 'Solve rapid-fire arithmetic before time runs out!';
+            let a = 5, b = 7, score = 0;
+            const div = document.createElement('div');
+            div.className = 'flex flex-col items-center gap-4';
+            div.innerHTML = `
+                <div class="sketch-box bg-white px-8 py-4 text-4xl font-bold text-stone-800 arcade-font" id="math-eq">5 + 7 = ?</div>
+                <div class="flex gap-3">
+                    <button onclick="checkMath(10)" class="sketch-btn bg-amber-200 px-6 py-2 text-xl font-bold">10</button>
+                    <button onclick="checkMath(12)" class="sketch-btn bg-amber-200 px-6 py-2 text-xl font-bold">12</button>
+                    <button onclick="checkMath(14)" class="sketch-btn bg-amber-200 px-6 py-2 text-xl font-bold">14</button>
+                </div>
+            `;
+            container.appendChild(div);
+
+            window.checkMath = (ans) => {
+                if(ans === a + b) {
+                    score += 25; playSound('score');
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('math-dash', score);
+                    a = Math.floor(Math.random()*10)+1; b = Math.floor(Math.random()*10)+1;
+                    document.getElementById('math-eq').textContent = `${a} + ${b} = ?`;
+                } else { playSound('hit'); }
+            };
+        }
+
+        // ==========================================
+        // 22. BALLOON POP
+        // ==========================================
+        function initBalloonPop(container) {
+            document.getElementById('modal-instructions').textContent = 'Pop floating balloons before time expires!';
+            const div = document.createElement('div');
+            div.className = 'grid grid-cols-4 gap-4 max-w-sm';
+            let score = 0;
+            div.innerHTML = Array.from({length: 8}).map((_, i) => `<button onclick="popB(${i})" id="b-${i}" class="sketch-box bg-pink-200 w-16 h-20 rounded-full flex items-center justify-center text-2xl">🎈</button>`).join('');
+            container.appendChild(div);
+
+            window.popB = (i) => {
+                playSound('score'); score += 10;
+                document.getElementById('modal-score').textContent = score;
+                updateHighScore('balloon-pop', score);
+                document.getElementById(`b-${i}`).style.visibility = 'hidden';
+                setTimeout(() => document.getElementById(`b-${i}`).style.visibility = 'visible', 800);
+            };
+        }
+
+        // ==========================================
+        // 23. REACTION TEST
+        // ==========================================
+        function initReactionTest(container) {
+            document.getElementById('modal-instructions').textContent = 'Click instantly when the screen turns green!';
+            const btn = document.createElement('button');
+            btn.className = 'sketch-box bg-red-300 w-64 h-40 text-2xl font-bold text-stone-900';
+            btn.textContent = 'Wait for Green...';
+            container.appendChild(btn);
+
+            let startTime = 0, score = 0;
+            setTimeout(() => {
+                btn.className = 'sketch-box bg-green-300 w-64 h-40 text-2xl font-bold text-stone-900';
+                btn.textContent = 'CLICK NOW!';
+                startTime = Date.now();
+            }, 2000);
+
+            btn.onclick = () => {
+                if(startTime) {
+                    let time = Date.now() - startTime;
+                    score = Math.max(10, 1000 - time);
+                    playSound('score');
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('reaction-test', score);
+                    btn.textContent = `Reaction: ${time}ms!`;
+                }
+            };
+        }
+
+        // ==========================================
+        // 24. ZOMBIE SURVIVAL
+        // ==========================================
+        function initZombieSurvival(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Survive incoming ink zombies!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 350;
+            canvas.className = 'sketch-box bg-stone-900 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `<button onclick="zShoot()" class="sketch-btn bg-red-300 px-8 py-3 font-bold text-lg">🔫 SHOOT ZOMBIE</button>`;
+
+            let zombieX = 400, score = 0;
+            window.zShoot = () => {
+                playSound('laser'); zombieX = 400; score += 20;
+                document.getElementById('modal-score').textContent = score;
+                updateHighScore('zombie-survival', score);
+            };
+
+            currentGameInterval = setInterval(() => {
+                zombieX -= 2;
+                if(zombieX < 50) { zombieX = 400; score = 0; playSound('hit'); document.getElementById('modal-score').textContent = 0; }
+                ctx.fillStyle = '#1c1c1c'; ctx.fillRect(0,0,400,350);
+                ctx.fillStyle = '#8bc34a'; ctx.fillRect(zombieX, 280, 25, 45);
+            }, 30);
+        }
+
+        // ==========================================
+        // 25. SKETCH TOWER (Stack Blocks)
+        // ==========================================
+        function initStackBlocks(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Drop blocks to build the tallest tower!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 400;
+            canvas.className = 'sketch-box bg-stone-50 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `<button onclick="dropBlock()" class="sketch-btn bg-amber-200 px-8 py-3 font-bold text-lg">📦 DROP BLOCK</button>`;
+
+            let blocks = [{x: 120, y: 360, w: 160}], curX = 50, dir = 3, score = 0;
+            window.dropBlock = () => {
+                playSound('score'); score++;
+                document.getElementById('modal-score').textContent = score;
+                updateHighScore('stack-blocks', score);
+                blocks.push({x: curX, y: 360 - blocks.length * 30, w: 160});
+            };
+
+            currentGameInterval = setInterval(() => {
+                curX += dir; if(curX < 20 || curX > 220) dir = -dir;
+                ctx.fillStyle = '#faf6ee'; ctx.fillRect(0,0,400,400);
+                blocks.forEach(b => {
+                    ctx.fillStyle = '#8d6e63'; ctx.fillRect(b.x, b.y, b.w, 25); ctx.strokeRect(b.x, b.y, b.w, 25);
+                });
+                ctx.fillStyle = '#ffb74d'; ctx.fillRect(curX, 100, 160, 25);
+            }, 30);
+        }
+
+        // ==========================================
+        // 26. MINI DUNGEON
+        // ==========================================
+        function initMiniDungeon(container, controls) {
+            document.getElementById('modal-instructions').textContent = 'Explore rooms and defeat dungeon monsters!';
+            const canvas = document.createElement('canvas');
+            canvas.width = 400; canvas.height = 350;
+            canvas.className = 'sketch-box bg-stone-900 max-w-full h-auto shadow-lg rounded-xl';
+            container.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+
+            controls.innerHTML = `
+                <div class="flex gap-4">
+                    <button onclick="dungMove(0,-15)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">▲</button>
+                    <button onclick="dungMove(-15,0)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">◀</button>
+                    <button onclick="dungMove(15,0)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">▶</button>
+                    <button onclick="dungMove(0,15)" class="sketch-btn bg-amber-200 px-4 py-2 font-bold">▼</button>
+                </div>
+            `;
+
+            let hero = {x: 200, y: 175}, chest = {x: 100, y: 100}, score = 0;
+            window.dungMove = (dx, dy) => {
+                hero.x = Math.max(20, Math.min(380, hero.x + dx));
+                hero.y = Math.max(20, Math.min(320, hero.y + dy));
+                playSound('click');
+                if(Math.hypot(hero.x - chest.x, hero.y - chest.y) < 25) {
+                    score += 50; playSound('score');
+                    document.getElementById('modal-score').textContent = score;
+                    updateHighScore('mini-dungeon', score);
+                    chest.x = Math.random()*340 + 20; chest.y = Math.random()*280 + 20;
+                }
+            };
+
+            currentGameInterval = setInterval(() => {
+                ctx.fillStyle = '#1c1c1c'; ctx.fillRect(0,0,400,350);
+                ctx.fillStyle = '#ffeb3b'; ctx.fillRect(chest.x, chest.y, 16, 16);
+                ctx.fillStyle = '#4caf50'; ctx.fillRect(hero.x, hero.y, 20, 20);
+            }, 50);
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            renderGames();
+        };
+    </script>
+</body>
+</html>
